@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "chaosGame.h"
 using namespace std;
 using namespace sf;
 
@@ -24,7 +25,7 @@ Vector2f RandVertPos(vector<RectangleShape> vertices)
 
 int main()
 {
-  // Running total number of drawn points.
+  // Running total number of points.
   int count = 0;
 
   VideoMode vm(1920, 1080);
@@ -125,7 +126,6 @@ int main()
     window.clear();
 
     window.draw(messageText);
-
 
     for (RectangleShape vertex : vertices)
     {
