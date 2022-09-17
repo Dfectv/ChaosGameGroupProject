@@ -1,10 +1,19 @@
+/**************************
+ * Programmer: Ben Paepke *
+ * Class: CISP 400        *
+ * Assignment: Chaos Game *
+ * Due Date: 09/18/2022   *
+ **************************/
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "chaosGame.h"
 using namespace std;
 using namespace sf;
 
-// Rectangle shape used for points
+/***********************************
+ * Rectangle shape used for points *
+ ***********************************/
 RectangleShape Point(float x, float y)
 {
   RectangleShape rect;
@@ -14,8 +23,9 @@ RectangleShape Point(float x, float y)
 
   return rect;
 }
-
-// Random vertex.
+/*****************
+ * Random vertex *
+ *****************/
 Vector2f RandVertPos(vector<RectangleShape> vertices)
 {
   int randomIndex = 0 + rand() % 3;
@@ -25,14 +35,20 @@ Vector2f RandVertPos(vector<RectangleShape> vertices)
 
 int main()
 {
-  // Running total number of points.
+  /***********************************
+   * Running total number of points. *
+   ***********************************/
   int count = 0;
   
-  // Setup Video and Window
+  /**************************
+   * Setup Video and Window *
+   **************************/
   VideoMode vm(1920, 1080);
   RenderWindow window(VideoMode(1920, 1080), "Chaos Game");
-  
-  // Vectors, Variables, and RectangleShapes
+
+  /*******************************************
+   * Vectors, Variables, and RectangleShapes *
+   *******************************************/
   vector<RectangleShape> vertices;
   vector<RectangleShape> points;
   RectangleShape startPoint;
@@ -46,7 +62,9 @@ int main()
 
   while (window.isOpen())
   {
-    // Checks if the left mouse button has been pressed
+    /****************************************************
+     * Checks if the left mouse button has been pressed *
+     ****************************************************/
     MouseButtonPressed = false;
     while (window.pollEvent(event))
     {
@@ -58,7 +76,9 @@ int main()
         }
       }
     }
-    // Outside points for triangle
+    /*******************************
+     * Outside points for triangle *
+     *******************************/
     if (vertices.size() < 3)
     {
       if (MouseButtonPressed)
@@ -69,7 +89,9 @@ int main()
     }
     else
     {
-      // Start Sierpinski's Triangle
+      /*******************************
+       * Start Sierpinski's Triangle *
+       *******************************/
       if (startPoint.getPosition() == Vector2f(0, 0))
       {
         if (MouseButtonPressed)
@@ -89,14 +111,18 @@ int main()
         points.push_back(prevPoint);
       }
     }
-    
-    // Closes the game window when Escape is pressed.
+
+    /**************************************************
+     * Closes the game window when Escape is pressed. *
+     **************************************************/
     if (Keyboard::isKeyPressed(Keyboard::Escape))
     {
       window.close();
     }
 
-    // Instructions displayed in window
+    /************************************
+     * Instructions displayed in window *
+     ************************************/
     Text messageText;
     Font font;
 
@@ -110,8 +136,9 @@ int main()
     messageText.setFillColor(Color::Magenta);
     messageText.setPosition(30, 30);
 
-
-    // Color the various points
+    /****************************
+     * Color the various points *
+     ****************************/
     for (unsigned int i = 0; i < vertices.size(); i++)
     {
       vertices.at(i).setFillColor(Color::Cyan);
@@ -121,7 +148,9 @@ int main()
       points.at(i).setFillColor(Color::Yellow);
     }
     
-    //Draw the scene
+    /*****************
+     *Draw the scene *
+     *****************/
     window.clear();
     window.draw(messageText);
 
@@ -135,7 +164,10 @@ int main()
       window.draw(points[i]);
       count++;
     }
-
+    
+    /***********************************
+     * Display everything we just drew *
+     ***********************************/ 
     window.display();
   }
   return 0;
