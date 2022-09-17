@@ -4,7 +4,7 @@
 using namespace std;
 using namespace sf;
 
-// Instantiate rectangle shape to be drawn as a point.
+// Rectangle shape used for points
 RectangleShape Point(float x, float y)
 {
   RectangleShape rect;
@@ -15,7 +15,7 @@ RectangleShape Point(float x, float y)
   return rect;
 }
 
-// Pick random vertex.
+// Random vertex.
 Vector2f RandVertPos(vector<RectangleShape> vertices)
 {
   int randomIndex = 0 + rand() % 3;
@@ -27,10 +27,12 @@ int main()
 {
   // Running total number of points.
   int count = 0;
-
+  
+  // Setup Video and Window
   VideoMode vm(1920, 1080);
   RenderWindow window(VideoMode(1920, 1080), "Chaos Game");
-
+  
+  // Vectors, Variables, and RectangleShapes
   vector<RectangleShape> vertices;
   vector<RectangleShape> points;
   RectangleShape startPoint;
@@ -56,35 +58,37 @@ int main()
         }
       }
     }
-      if (vertices.size() < 3)
+    // Outside points for triangle
+    if (vertices.size() < 3)
+    {
+      if (MouseButtonPressed)
+      {
+        mousePos = Mouse::getPosition(window);
+        vertices.push_back(Point(mousePos.x, mousePos.y));
+      }
+    }
+    else
+    {
+      // Start Sierpinski's Triangle
+      if (startPoint.getPosition() == Vector2f(0, 0))
       {
         if (MouseButtonPressed)
         {
           mousePos = Mouse::getPosition(window);
-          vertices.push_back(Point(mousePos.x, mousePos.y));
+          startPoint = Point(mousePos.x, mousePos.y);
+          prevPoint = startPoint;
         }
       }
       else
       {
-        if (startPoint.getPosition() == Vector2f(0, 0))
-        {
-          if (MouseButtonPressed)
-          {
-            mousePos = Mouse::getPosition(window);
-            startPoint = Point(mousePos.x, mousePos.y);
-            prevPoint = startPoint;
-          }
-        }
-        else
-        {
-          Vector2f randVertex = RandVertPos(vertices);
+        Vector2f randVertex = RandVertPos(vertices);
 
-          Vector2f midPointPos = Vector2f((randVertex.x + prevPoint.getPosition().x) / 2.0, (randVertex.y + prevPoint.getPosition().y) / 2.0);
-          midPoint = Point(midPointPos.x, midPointPos.y);
-          prevPoint = midPoint;
-          points.push_back(prevPoint);
-        }
+        Vector2f midPointPos = Vector2f((randVertex.x + prevPoint.getPosition().x) / 2.0, (randVertex.y + prevPoint.getPosition().y) / 2.0);
+        midPoint = Point(midPointPos.x, midPointPos.y);
+        prevPoint = midPoint;
+        points.push_back(prevPoint);
       }
+    }
     
     // Closes the game window when Escape is pressed.
     if (Keyboard::isKeyPressed(Keyboard::Escape))
@@ -92,6 +96,7 @@ int main()
       window.close();
     }
 
+    // Instructions displayed in window
     Text messageText;
     Font font;
 
@@ -101,16 +106,12 @@ int main()
     messageText.setString("Click 3 different points to create a triangle.\n"
                           "Click a 4th time to start.\n"
                           "Press Escape to exit.");
-
     messageText.setCharacterSize(20);
     messageText.setFillColor(Color::Magenta);
     messageText.setPosition(30, 30);
 
 
-    /******************************
-    Update the scene
-    *******************************/
-
+    // Color the various points
     for (unsigned int i = 0; i < vertices.size(); i++)
     {
       vertices.at(i).setFillColor(Color::Cyan);
@@ -119,13 +120,9 @@ int main()
     {
       points.at(i).setFillColor(Color::Yellow);
     }
-
-    /******************************
-    Draw the scene
-    *******************************/
-
+    
+    //Draw the scene
     window.clear();
-
     window.draw(messageText);
 
     for (RectangleShape vertex : vertices)
@@ -141,6 +138,5 @@ int main()
 
     window.display();
   }
-
   return 0;
 }
