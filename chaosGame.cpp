@@ -96,6 +96,7 @@ int main()
     Font font;
 
     font.loadFromFile("fonts/KOMIKAP_.ttf");
+    messageText.setFont(font);
 
     messageText.setString("Click 3 different points to create a triangle.\n"
                           "Click a 4th time to start.\n"
