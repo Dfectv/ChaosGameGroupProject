@@ -1,9 +1,10 @@
-/**************************
- * Programmer: Ben Paepke *
- * Class: CISP 400        *
- * Assignment: Chaos Game *
- * Due Date: 09/18/2022   *
- **************************/
+/****************************
+ * Programmers: Ben Paepke, *
+ * Derek Vergara            *
+ * Class: CISP 400          *
+ * Assignment: Chaos Game   *
+ * Due Date: 09/18/2022     *
+ ****************************/
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
